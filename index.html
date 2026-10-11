@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EmpowerHer | Find Your Path</title>
+
+<style>
+:root {
+    --primary: #a13d75;
+    --dark: #57213f;
+    --light: #fff1f7;
+    --text: #342631;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fffafc;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+header {
+    background: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2dce7;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+select, input, button { font: inherit; }
+
+header select {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #e6d5df;
+}
+
+.hero {
+    padding: 65px 8%;
+    background: linear-gradient(120deg, #fff0f7, #f8e5f0, #f8f1ff);
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: 30px;
+}
+
+.hero h1 {
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.2;
+    color: var(--dark);
+    margin: 15px 0;
+}
+
+.hero h1 span { color: var(--primary); }
+.hero p { margin-bottom: 20px; }
+
+.hero-card, .form-container, .feature, .result-card {
+    background: white;
+    border: 1px solid #f0dce6;
+    border-radius: 17px;
+    padding: 25px;
+}
+
+.hero-card {
+    text-align: center;
+    padding: 35px;
+}
+
+.hero-emoji { font-size: 65px; }
+
+button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px 5px 5px 0;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.primary-btn:hover { background: var(--dark); }
+
+.secondary-btn {
+    background: white;
+    color: var(--primary);
+    border: 1px solid #e9c1d5;
+}
+
+.section { padding: 55px 8%; }
+
+.section-title, .results-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.section-title h2, .form-container h2, .results-header h2 {
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.feature h3 {
+    color: var(--dark);
+    margin: 10px 0;
+}
+
+.form-section { background: var(--light); }
+
+.form-container {
+    max-width: 850px;
+    margin: auto;
+    padding: 30px;
+}
+
+.form-intro { margin-bottom: 20px; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full { grid-column: 1 / -1; }
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e6d5df;
+    border-radius: 9px;
+    background: white;
+}
+
+.choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.choices label {
+    border: 1px solid #ead4e0;
+    padding: 10px;
+    border-radius: 9px;
+    font-weight: normal;
+    background: white;
+    cursor: pointer;
+}
+
+.choices input { margin-right: 5px; }
+
+.form-submit {
+    width: 100%;
+    margin-top: 22px;
+}
+
+.small-note {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #796675;
+}
+
+#results {
+    display: none;
+    background: white;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.result-card h3 {
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.result-card p { margin: 8px 0; }
+
+.result-tag {
+    display: inline-block;
+    background: #e8f6ef;
+    color: #286b55;
+    border-radius: 20px;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.notice {
+    background: #fff4d9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 22px;
+    font-size: 13px;
+}
+
+footer {
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    padding: 28px;
+}
+
+@media(max-width: 750px) {
+    .hero, .features, .form-grid, .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero, .section { padding: 35px 6%; }
+    .field.full { grid-column: auto; }
+    header { padding: 15px 5%; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">EmpowerHer ♡</div>
+
+    <select id="language" aria-label="Choose language">
+        <option value="en">English</option>
+        <option value="te">తెలుగు</option>
+        <option value="hi">हिन्दी</option>
+    </select>
+</header>
+
+<main>
+
+<section class="hero">
+    <div>
+        <p><strong data-i18n="tagline">YOUR SKILLS. YOUR FUTURE.</strong></p>
+
+        <h1>
+            <span data-i18n="heroBefore">Your journey to</span>
+            <span data-i18n="independence">independence</span>
+            <span data-i18n="heroAfter">starts here.</span>
+        </h1>
+
+        <p data-i18n="heroText">
+            Discover earning opportunities that match your skills,
+            interests, available budget and lifestyle.
+            Get clear guidance on how to get started.
+        </p>
+
+        <button class="primary-btn" onclick="goToForm()" data-i18n="discover">
+            Discover Your Path →
+        </button>
+
+        <button class="secondary-btn" onclick="goToAbout()" data-i18n="learnMore">
+            Learn More
+        </button>
+    </div>
+
+    <div class="hero-card">
+        <div class="hero-emoji">👩🏻‍💻</div>
+        <h2 data-i18n="potential">Your potential matters.</h2>
+        <p data-i18n="startKnow">Start with what you know. Explore what you can do.</p>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="section-title">
+        <h2 data-i18n="aboutTitle">A clearer path forward</h2>
+        <p data-i18n="aboutText">Practical guidance designed around your goals.</p>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <div style="font-size:35px">🎯</div>
+            <h3 data-i18n="feature1">Personalized Guidance</h3>
+            <p data-i18n="feature1Text">Explore opportunities based on your skills and interests.</p>
+        </div>
+
+        <div class="feature">
+            <div style="font-size:35px">💡</div>
+            <h3 data-i18n="feature2">Discover Your Skills</h3>
+            <p data-i18n="feature2Text">Find ways to use your existing abilities and learn new ones.</p>
+        </div>
+
+        <div class="feature">
+            <div style="font-size:35px">🌱</div>
+            <h3 data-i18n="feature3">Start Small</h3>
+            <p data-i18n="feature3Text">Explore opportunities that fit your circumstances.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section form-section" id="form">
+    <div class="form-container">
+        <h2 data-i18n="formTitle">Find Your Earning Path ✨</h2>
+        <p class="form-intro" data-i18n="formIntro">
+            Tell us about yourself to explore suitable opportunities.
+        </p>
+
+        <form id="careerForm">
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="age" data-i18n="ageLabel">Your Age</label>
+                    <select id="age" required>
+                        <option value="" data-i18n="chooseAge">Select your age</option>
+                        <option value="under18" data-i18n="under18">Below 18</option>
+                        <option value="18-24">18–24</option>
+                        <option value="25-34">25–34</option>
+                        <option value="35-44">35–44</option>
+                        <option value="45plus" data-i18n="45plus">45 and above</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="education" data-i18n="educationLabel">Education Level</label>
+                    <select id="education" required>
+                        <option value="" data-i18n="chooseEducation">Select education</option>
+                        <option value="school" data-i18n="school">School Student</option>
+                        <option value="intermediate" data-i18n="intermediate">Intermediate</option>
+                        <option value="college" data-i18n="college">College Student</option>
+                        <option value="graduate" data-i18n="graduate">Graduate</option>
+                        <option value="other" data-i18n="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="skills" data-i18n="skillsLabel">Your Main Skill</label>
+                    <select id="skills" required>
+                        <option value="" data-i18n="chooseSkill">Select your skill</option>
+                        <option value="computer" data-i18n="computer">Computer Skills</option>
+                        <option value="teaching" data-i18n="teaching">Teaching</option>
+                        <option value="cooking" data-i18n="cooking">Cooking and Baking</option>
+                        <option value="crafts" data-i18n="crafts">Art and Handicrafts</option>
+                        <option value="communication" data-i18n="communication">Communication</option>
+                        <option value="writing" data-i18n="writing">Writing</option>
+                        <option value="design" data-i18n="design">Graphic Design</option>
+                        <option value="none" data-i18n="none">Still Learning / No Experience</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label data-i18n="interestLabel">What are you interested in?</label>
+                    <div class="choices">
+                        <label><input type="checkbox" name="interest" value="online"><span data-i18n="online">Online Work</span></label>
+                        <label><input type="checkbox" name="interest" value="business"><span data-i18n="business">Small Business</span></label>
+                        <label><input type="checkbox" name="interest" value="teaching"><span data-i18n="teaching">Teaching</span></label>
+                        <label><input type="checkbox" name="interest" value="creative"><span data-i18n="creative">Creative Work</span></label>
+                        <label><input type="checkbox" name="interest" value="home"><span data-i18n="home">Home-Based Work</span></label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="budget" data-i18n="budgetLabel">Available Starting Budget</label>
+                    <select id="budget" required>
+                        <option value="" data-i18n="chooseBudget">Select your budget</option>
+                        <option value="0" data-i18n="budget0">₹0 — No investment</option>
+                        <option value="500" data-i18n="budget500">Up to ₹500</option>
+                        <option value="2000" data-i18n="budget2000">₹500–₹2,000</option>
+                        <option value="5000" data-i18n="budget5000">₹2,000–₹5,000</option>
+                        <option value="10000" data-i18n="budget10000">Above ₹5,000</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="time" data-i18n="timeLabel">Available Time</label>
+                    <select id="time" required>
+                        <option value="" data-i18n="chooseTime">Select available time</option>
+                        <option value="1" data-i18n="time1">1–2 hours daily</option>
+                        <option value="3" data-i18n="time3">3–4 hours daily</option>
+                        <option value="5" data-i18n="time5">5 or more hours daily</option>
+                        <option value="flexible" data-i18n="flexible">Flexible schedule</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="internet" data-i18n="internetLabel">Do you have internet access?</label>
+                    <select id="internet" required>
+                        <option value="" data-i18n="chooseInternet">Choose an option</option>
+                        <option value="yes" data-i18n="yes">Yes</option>
+                        <option value="limited" data-i18n="limited">Limited access</option>
+                        <option value="no" data-i18n="no">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-btn form-submit" data-i18n="find">
+                Find My Opportunities →
+            </button>
+
+            <p class="small-note" data-i18n="smallNote">
+                Suggestions are educational and do not guarantee income.
+            </p>
+        </form>
+    </div>
+</section>
+
+<section class="section" id="results">
+    <div class="results-header">
+        <h2 data-i18n="resultsTitle">Your Opportunities 🌸</h2>
+        <p data-i18n="resultsIntro">Explore these ideas based on your answers.</p>
+    </div>
+
+    <div id="resultSummary"></div>
+    <div class="results-grid" id="resultsGrid"></div>
+
+    <div class="notice" data-i18n="safety">
+        Stay safe online: Verify opportunities before sharing personal
+        information or making payments. Never trust guaranteed-income claims.
+    </div>
+
+    <div style="text-align:center;margin-top:25px">
+        <button class="secondary-btn" onclick="goToForm()" data-i18n="edit">
+            Edit My Answers
+        </button>
+        <button class="primary-btn" onclick="window.print()" data-i18n="print">
+            Print My Results
+        </button>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <h3>EmpowerHer ♡</h3>
+    <p data-i18n="footerText">Discover your skills. Explore your future.</p>
+    <p>© 2026 EmpowerHer | Educational Project Demo</p>
+</footer>
+
+<script>
+const translations = {
+en: {
+tagline:"YOUR SKILLS. YOUR FUTURE.",
+heroBefore:"Your journey to",
+independence:"independence",
+heroAfter:"starts here.",
+heroText:"Discover earning opportunities that match your skills, interests, available budget and lifestyle. Get clear guidance on how to get started.",
+discover:"Discover Your Path →",
+learnMore:"Learn More",
+potential:"Your potential matters.",
+startKnow:"Start with what you know. Explore what you can do.",
+aboutTitle:"A clearer path forward",
+aboutText:"Practical guidance designed around your goals.",
+feature1:"Personalized Guidance",
+feature1Text:"Explore opportunities based on your skills and interests.",
+feature2:"Discover Your Skills",
+feature2Text:"Find ways to use your existing abilities and learn new ones.",
+feature3:"Start Small",
+feature3Text:"Explore opportunities that fit your circumstances.",
+formTitle:"Find Your Earning Path ✨",
+formIntro:"Tell us about yourself to explore suitable opportunities.",
+ageLabel:"Your Age",chooseAge:"Select your age",
+under18:"Below 18", "45plus":"45 and above",
+educationLabel:"Education Level",chooseEducation:"Select education",
+school:"School Student",intermediate:"Intermediate",
+college:"College Student",graduate:"Graduate",other:"Other",
+skillsLabel:"Your Main Skill",chooseSkill:"Select your skill",
+computer:"Computer Skills",teaching:"Teaching",
+cooking:"Cooking and Baking",crafts:"Art and Handicrafts",
+communication:"Communication",writing:"Writing",
+design:"Graphic Design",none:"Still Learning / No Experience",
+interestLabel:"What are you interested in?",
+online:"Online Work",business:"Small Business",
+creative:"Creative Work",home:"Home-Based Work",
+budgetLabel:"Available Starting Budget",chooseBudget:"Select your budget",
+budget0:"₹0 — No investment",budget500:"Up to ₹500",
+budget2000:"₹500–₹2,000",budget5000:"₹2,000–₹5,000",
+budget10000:"Above ₹5,000",
+timeLabel:"Available Time",chooseTime:"Select available time",
+time1:"1–2 hours daily",time3:"3–4 hours daily",
+time5:"5 or more hours daily",flexible:"Flexible schedule",
+internetLabel:"Do you have internet access?",
+chooseInternet:"Choose an option",yes:"Yes",limited:"Limited access",no:"No",
+find:"Find My Opportunities →",
+smallNote:"Suggestions are educational and do not guarantee income.",
+resultsTitle:"Your Opportunities 🌸",
+resultsIntro:"Explore these ideas based on your answers.",
+safety:"Stay safe online: Verify opportunities before sharing personal information or making payments. Never trust guaranteed-income claims.",
+edit:"Edit My Answers",print:"Print My Results",
+footerText:"Discover your skills. Explore your future.",
+profile:"Your Profile Summary",age:"Age group",education:"Education",
+skill:"Skill",budget:"Budget",time:"Available time",internet:"Internet access",
+suggestion:"Suggested Opportunity",gettingStarted:"Getting started:",
+steps:["Choose one area to explore.","Practise and create sample work.","Check the opportunity carefully before spending money."],
+opportunities:{
+digital:["Freelance Digital Services","Explore writing, basic design, presentation creation or other digital services."],
+baking:["Home Baking and Food Business","Explore baking skills and made-to-order products. Check local food-safety and business rules before selling."],
+tutoring:["Tutoring and Learning Support","Explore tutoring subjects you understand well."],
+creative:["Creative Products","Explore handmade gifts, artwork, greeting cards or digital designs."],
+learning:["Online Learning and Skill Building","Build skills in typing, spreadsheets, coding or digital design."],
+business:["Small Business Planning","Research a product or service, its costs and potential customers."]
+}
+},
+te: {
+tagline:"మీ నైపుణ్యాలు. మీ భవిష్యత్తు.",
+heroBefore:"మీ స్వతంత్ర",
+independence:"జీవిత ప్రయాణం",
+heroAfter:"ఇక్కడ ప్రారంభమవుతుంది.",
+heroText:"మీ నైపుణ్యాలు, ఆసక్తులు, బడ్జెట్‌కు సరిపోయే సంపాదన అవకాశాలను తెలుసుకోండి. ఎలా ప్రారంభించాలో మార్గదర్శకత్వం పొందండి.",
+discover:"మీ మార్గాన్ని కనుగొనండి →",
+learnMore:"మరింత తెలుసుకోండి",
+potential:"మీ సామర్థ్యం విలువైనది.",
+startKnow:"మీకు తెలిసిన దానితో ప్రారంభించండి.",
+aboutTitle:"ముందుకు వెళ్లేందుకు స్పష్టమైన మార్గం",
+aboutText:"మీ లక్ష్యాలకు అనుగుణమైన ఆచరణాత్మక మార్గదర్శకత్వం.",
+feature1:"వ్యక్తిగత మార్గదర్శకత్వం",
+feature1Text:"మీ నైపుణ్యాలు, ఆసక్తులకు సరిపోయే అవకాశాలను తెలుసుకోండి.",
+feature2:"మీ నైపుణ్యాలను తెలుసుకోండి",
+feature2Text:"మీ నైపుణ్యాలను ఉపయోగించి కొత్తవి నేర్చుకోండి.",
+feature3:"చిన్నగా ప్రారంభించండి",
+feature3Text:"మీ పరిస్థితులకు సరిపోయే అవకాశాలను పరిశీలించండి.",
+formTitle:"మీ సంపాదన మార్గాన్ని కనుగొనండి ✨",
+formIntro:"మీకు సరిపోయే అవకాశాలను తెలుసుకోవడానికి వివరాలను ఎంచుకోండి.",
+ageLabel:"మీ వయస్సు",chooseAge:"వయస్సును ఎంచుకోండి",
+under18:"18 సంవత్సరాల కంటే తక్కువ","45plus":"45 సంవత్సరాలు లేదా అంతకంటే ఎక్కువ",
+educationLabel:"విద్యా స్థాయి",chooseEducation:"విద్యను ఎంచుకోండి",
+school:"పాఠశాల విద్యార్థి",intermediate:"ఇంటర్మీడియట్",
+college:"కళాశాల విద్యార్థి",graduate:"డిగ్రీ పూర్తి చేశారు",other:"ఇతర",
+skillsLabel:"మీ ప్రధాన నైపుణ్యం",chooseSkill:"నైపుణ్యాన్ని ఎంచుకోండి",
+computer:"కంప్యూటర్ నైపుణ్యాలు",teaching:"బోధన",
+cooking:"వంట మరియు బేకింగ్",crafts:"కళలు మరియు చేతిపనులు",
+communication:"సంభాషణ నైపుణ్యాలు",writing:"రచన",
+design:"గ్రాఫిక్ డిజైన్",none:"నేర్చుకుంటున్నారు / అనుభవం లేదు",
+interestLabel:"మీ ఆసక్తులు ఏమిటి?",
+online:"ఆన్‌లైన్ పని",business:"చిన్న వ్యాపారం",
+creative:"సృజనాత్మక పని",home:"ఇంటి నుంచే పని",
+budgetLabel:"ప్రారంభ బడ్జెట్",chooseBudget:"బడ్జెట్‌ను ఎంచుకోండి",
+budget0:"₹0 — పెట్టుబడి లేదు",budget500:"₹500 వరకు",
+budget2000:"₹500–₹2,000",budget5000:"₹2,000–₹5,000",
+budget10000:"₹5,000 కంటే ఎక్కువ",
+timeLabel:"అందుబాటులో ఉన్న సమయం",chooseTime:"సమయాన్ని ఎంచుకోండి",
+time1:"రోజుకు 1–2 గంటలు",time3:"రోజుకు 3–4 గంటలు",
+time5:"రోజుకు 5 గంటలు లేదా అంతకంటే ఎక్కువ",flexible:"అనుకూలమైన సమయం",
+internetLabel:"మీకు ఇంటర్నెట్ అందుబాటులో ఉందా?",
+chooseInternet:"ఒక ఎంపికను ఎంచుకోండి",yes:"అవును",limited:"పరిమితంగా ఉంది",no:"లేదు",
+find:"నా అవకాశాలను కనుగొనండి →",
+smallNote:"ఇవి సమాచార సూచనలు మాత్రమే; ఆదాయం హామీ కాదు.",
+resultsTitle:"మీ అవకాశాలు 🌸",
+resultsIntro:"మీ సమాధానాల ఆధారంగా ఈ ఆలోచనలను పరిశీలించండి.",
+safety:"ఆన్‌లైన్‌లో జాగ్రత్తగా ఉండండి. వ్యక్తిగత వివరాలు లేదా డబ్బు ఇచ్చే ముందు అవకాశాలను ధృవీకరించండి. హామీ ఇచ్చే ఆదాయ వాగ్దానాలను నమ్మవద్దు.",
+edit:"నా సమాధానాలను మార్చండి",print:"ఫలితాలను ముద్రించండి",
+footerText:"మీ నైపుణ్యాలను తెలుసుకోండి. మీ భవిష్యత్తును అన్వేషించండి.",
+profile:"మీ వివరాలు",age:"వయస్సు",education:"విద్య",
+skill:"నైపుణ్యం",budget:"బడ్జెట్",time:"అందుబాటులో ఉన్న సమయం",internet:"ఇంటర్నెట్",
+suggestion:"సూచించిన అవకాశం",gettingStarted:"ప్రారంభించే విధానం:",
+steps:["ఒక రంగాన్ని ఎంచుకోండి.","సాధన చేసి నమూనా పనిని రూపొందించండి.","డబ్బు ఖర్చు చేసే ముందు అవకాశాన్ని పరిశీలించండి."],
+opportunities:{
+digital:["డిజిటల్ సేవలు","రచన, డిజైన్, ప్రెజెంటేషన్లు వంటి డిజిటల్ సేవలను పరిశీలించండి."],
+baking:["ఇంటి బేకింగ్ మరియు ఆహార వ్యాపారం","బేకింగ్ నేర్చుకోండి. అమ్మకాలకు ముందు స్థానిక ఆహార భద్రతా నియమాలను తెలుసుకోండి."],
+tutoring:["ట్యూషన్ మరియు విద్యా సహాయం","మీకు బాగా తెలిసిన విషయాలను బోధించే అవకాశాలను పరిశీలించండి."],
+creative:["సృజనాత్మక ఉత్పత్తులు","చేతిపనులు, బహుమతులు, చిత్రాలు లేదా డిజిటల్ డిజైన్లను పరిశీలించండి."],
+learning:["ఆన్‌లైన్ అభ్యాసం మరియు నైపుణ్యాభివృద్ధి","టైపింగ్, స్ప్రెడ్‌షీట్లు, కోడింగ్ లేదా డిజైన్ నేర్చుకోండి."],
+business:["చిన్న వ్యాపార ప్రణాళిక","ఉత్పత్తి లేదా సేవ, ఖర్చులు, వినియోగదారుల గురించి పరిశోధించండి."]
+}
+},
+hi: {
+tagline:"आपके कौशल। आपका भविष्य।",
+heroBefore:"आपकी आत्मनिर्भरता की",
+independence:"यात्रा",
+heroAfter:"यहाँ से शुरू होती है।",
+heroText:"अपने कौशल, रुचियों, बजट और समय के अनुसार कमाई के अवसर खोजें। शुरुआत करने के लिए मार्गदर्शन पाएँ।",
+discover:"अपना रास्ता खोजें →",
+learnMore:"और जानें",
+potential:"आपकी क्षमता महत्वपूर्ण है।",
+startKnow:"जो आप जानते हैं, वहीं से शुरुआत करें।",
+aboutTitle:"आगे बढ़ने का स्पष्ट रास्ता",
+aboutText:"आपके लक्ष्यों के अनुसार व्यावहारिक मार्गदर्शन।",
+feature1:"व्यक्तिगत मार्गदर्शन",
+feature1Text:"अपने कौशल और रुचियों के अनुसार अवसर खोजें।",
+feature2:"अपने कौशल पहचानें",
+feature2Text:"अपने मौजूदा कौशल का उपयोग करें और नए कौशल सीखें।",
+feature3:"छोटी शुरुआत करें",
+feature3Text:"अपनी परिस्थितियों के अनुसार अवसर खोजें।",
+formTitle:"अपनी कमाई का रास्ता खोजें ✨",
+formIntro:"उपयुक्त अवसर खोजने के लिए अपने बारे में जानकारी चुनें।",
+ageLabel:"आपकी उम्र",chooseAge:"उम्र चुनें",
+under18:"18 वर्ष से कम","45plus":"45 वर्ष या अधिक",
+educationLabel:"शिक्षा का स्तर",chooseEducation:"शिक्षा चुनें",
+school:"स्कूल के विद्यार्थी",intermediate:"इंटरमीडिएट",
+college:"कॉलेज के विद्यार्थी",graduate:"स्नातक",other:"अन्य",
+skillsLabel:"आपका मुख्य कौशल",chooseSkill:"कौशल चुनें",
+computer:"कंप्यूटर कौशल",teaching:"शिक्षण",
+cooking:"खाना बनाना और बेकिंग",crafts:"कला और हस्तशिल्प",
+communication:"संवाद कौशल",writing:"लेखन",
+design:"ग्राफिक डिज़ाइन",none:"अभी सीख रहे हैं / अनुभव नहीं",
+interestLabel:"आपकी रुचियाँ क्या हैं?",
+online:"ऑनलाइन काम",business:"छोटा व्यवसाय",
+creative:"रचनात्मक काम",home:"घर से काम",
+budgetLabel:"शुरुआती बजट",chooseBudget:"बजट चुनें",
+budget0:"₹0 — कोई निवेश नहीं",budget500:"₹500 तक",
+budget2000:"₹500–₹2,000",budget5000:"₹2,000–₹5,000",
+budget10000:"₹5,000 से अधिक",
+timeLabel:"उपलब्ध समय",chooseTime:"समय चुनें",
+time1:"रोज़ 1–2 घंटे",time3:"रोज़ 3–4 घंटे",
+time5:"रोज़ 5 घंटे या अधिक",flexible:"लचीला समय",
+internetLabel:"क्या आपके पास इंटरनेट है?",
+chooseInternet:"एक विकल्प चुनें",yes:"हाँ",limited:"सीमित",no:"नहीं",
+find:"मेरे अवसर खोजें →",
+smallNote:"ये शैक्षिक सुझाव हैं; आय की गारंटी नहीं है।",
+resultsTitle:"आपके अवसर 🌸",
+resultsIntro:"अपने उत्तरों के आधार पर इन विचारों को देखें।",
+safety:"ऑनलाइन सुरक्षित रहें। व्यक्तिगत जानकारी या पैसे देने से पहले अवसर की जाँच करें। गारंटीकृत कमाई के दावों पर भरोसा न करें।",
+edit:"मेरे उत्तर बदलें",print:"परिणाम प्रिंट करें",
+footerText:"अपने कौशल पहचानें। अपना भविष्य खोजें।",
+profile:"आपकी जानकारी",age:"उम्र",education:"शिक्षा",
+skill:"कौशल",budget:"बजट",time:"उपलब्ध समय",internet:"इंटरनेट",
+suggestion:"सुझाया गया अवसर",gettingStarted:"शुरुआत कैसे करें:",
+steps:["एक क्षेत्र चुनें।","अभ्यास करें और नमूना काम बनाएँ।","पैसे खर्च करने से पहले अवसर की जाँच करें।"],
+opportunities:{
+digital:["डिजिटल सेवाएँ","लेखन, डिज़ाइन और प्रेज़ेंटेशन जैसी डिजिटल सेवाएँ सीखें।"],
+baking:["घर से बेकिंग और खाद्य व्यवसाय","बेकिंग का अभ्यास करें। बिक्री से पहले स्थानीय खाद्य सुरक्षा नियम जाँचें।"],
+tutoring:["ट्यूशन और पढ़ाई में सहायता","जिन विषयों में आप अच्छे हैं, उन्हें पढ़ाने के अवसर खोजें।"],
+creative:["रचनात्मक उत्पाद","हस्तशिल्प, उपहार, चित्र या डिजिटल डिज़ाइन बनाने पर विचार करें।"],
+learning:["ऑनलाइन सीखना और कौशल विकास","टाइपिंग, स्प्रेडशीट, कोडिंग या डिज़ाइन सीखें।"],
+business:["छोटे व्यवसाय की योजना","उत्पाद, लागत और संभावित ग्राहकों के बारे में शोध करें।"]
+}
+}
+};
+
+let currentLanguage = "en";
+
+function tr(key) {
+    return translations[currentLanguage][key] ??
+           translations.en[key] ?? key;
+}
+
+function goToForm() {
+    document.getElementById("form").scrollIntoView({behavior:"smooth"});
+}
+
+function goToAbout() {
+    document.getElementById("about").scrollIntoView({behavior:"smooth"});
+}
+
+function translatePage() {
+    document.documentElement.lang = currentLanguage;
+
+    document.querySelectorAll("[data-i18n]").forEach(element => {
+        const key = element.dataset.i18n;
+        const value = tr(key);
+        if (typeof value === "string") {
+            element.textContent = value;
+        }
+    });
+
+    document.title = "EmpowerHer | " + (
+        currentLanguage === "te" ? "మీ మార్గాన్ని కనుగొనండి" :
+        currentLanguage === "hi" ? "अपना रास्ता खोजें" :
+        "Find Your Path"
+    );
+
+    renderResults();
+}
+
+document.getElementById("language").addEventListener("change", function() {
+    currentLanguage = this.value;
+    translatePage();
+});
+
+const opportunities = [
+    {
+        id:"digital",
+        skills:["computer","writing","design","communication"],
+        interests:["online","creative"]
+    },
+    {
+        id:"baking",
+        skills:["cooking"],
+        interests:["business","home"]
+    },
+    {
+        id:"tutoring",
+        skills:["teaching","communication"],
+        interests:["teaching","home"]
+    },
+    {
+        id:"creative",
+        skills:["crafts","design"],
+        interests:["creative","business","home"]
+    },
+    {
+        id:"learning",
+        skills:["none","computer"],
+        interests:["online","creative"]
+    },
+    {
+        id:"business",
+        skills:["cooking","crafts","communication"],
+        interests:["business","home"]
+    }
+];
+
+let lastProfile = null;
+let lastMatches = [];
+
+function safe(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    })[ch]);
+}
+
+function optionLabel(selectId) {
+    const select = document.getElementById(selectId);
+    return select.options[select.selectedIndex].textContent;
+}
+
+document.getElementById("careerForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const interests = Array.from(
+        document.querySelectorAll('input[name="interest"]:checked')
+    ).map(input => input.value);
+
+    lastProfile = {
+        age: optionLabel("age"),
+        education: optionLabel("education"),
+        skill: optionLabel("skills"),
+        budget: optionLabel("budget"),
+        time: optionLabel("time"),
+        internet: optionLabel("internet")
+    };
+
+    lastMatches = opportunities.filter(item =>
+        item.skills.includes(document.getElementById("skills").value) &&
+        (interests.length === 0 ||
+         interests.some(value => item.interests.includes(value)))
+    );
+
+    if (lastMatches.length === 0) {
+        lastMatches = opportunities.slice(0, 3);
+    }
+
+    document.getElementById("results").style.display = "block";
+    renderResults();
+
+    document.getElementById("results").scrollIntoView({behavior:"smooth"});
+});
+
+function renderResults() {
+    const summary = document.getElementById("resultSummary");
+    const grid = document.getElementById("resultsGrid");
+
+    if (!lastProfile) return;
+
+    summary.innerHTML = `
+        <div class="result-card" style="margin-bottom:20px">
+            <h3>${safe(tr("profile"))}</h3>
+            <p><strong>${safe(tr("age"))}:</strong> ${safe(lastProfile.age)}</p>
+            <p><strong>${safe(tr("education"))}:</strong> ${safe(lastProfile.education)}</p>
+            <p><strong>${safe(tr("skill"))}:</strong> ${safe(lastProfile.skill)}</p>
+            <p><strong>${safe(tr("budget"))}:</strong> ${safe(lastProfile.budget)}</p>
+            <p><strong>${safe(tr("time"))}:</strong> ${safe(lastProfile.time)}</p>
+            <p><strong>${safe(tr("internet"))}:</strong> ${safe(lastProfile.internet)}</p>
+        </div>`;
+
+    grid.innerHTML = "";
+
+    lastMatches.forEach(item => {
+        const data = translations[currentLanguage].opportunities[item.id] ||
+                     translations.en.opportunities[item.id];
+
+        const card = document.createElement("article");
+        card.className = "result-card";
+
+        card.innerHTML = `
+            <span class="result-tag">${safe(tr("suggestion"))}</span>
+            <h3>${safe(data[0])}</h3>
+            <p>${safe(data[1])}</p>
+            <p><strong>${safe(tr("gettingStarted"))}</strong></p>
+            <ol style="padding-left:20px">
+                ${tr("steps").map(step => `<li>${safe(step)}</li>`).join("")}
+            </ol>`;
+
+        grid.appendChild(card);
+    });
+}
+
+translatePage();
+</script>
+
+</body>
+</html>
